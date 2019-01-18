@@ -1,17 +1,94 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
-	<link href="weather.css" rel="stylesheet"/></head>
+	<link href="weather.css" rel="stylesheet"/>
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+	`
+	<script>
+
+	window.onload = function(){
+
+	var ipUrl= "   https://api.ipdata.co?";
+	var appId ="appid=4fcbe5a9bddebdacc411e694bddd1920173805dcba791f42b41d824b";
+	var location=document.getElementById("location");
+     console.log("hi");
+
+     httpReqIpAsync(ipUrl);	
+
+
+	function httpReqIpAsync(url,callback){
+
+		var httpReqIp = new XMLHttpRequest();
+		httpReqIp.open("GET",url,true);
+		console.log("hi");
+		httpReqIp.onreadystatechange= function(){
+			
+	 if(httpReqIp.readyState == 4 && httpReqIp.status == 200){
+             
+             var jsonIp=JSON.parse(httpReqIp.responseText)
+          	console.log(jsonIp);
+          	var city = jsonIp.city;
+          	var country = jsonIp.country;
+          	console.log('hi');
+          	location.innerHTML= `${city},${country}`;
+          	var lat = jsonIp.loc.split(",")[0];
+         	var lon = jsonIp.loc.split(",")[1];
+
+          	console.log(lat+" "+lon);
+          	console.log("hello");
+          }
+          
+		}
+		httpReqIp.send();
+
+
+	}
+
+function httpReqWeatherAsync(url,callback){
+
+		var httpReqWeather= new XMLHttpRequest();
+		httpReqWeather.open("GET",url,true);
+		httpReqWeather.onreadystatechange= function(){
+          if(httpReqIp.readyState==4 && httpReqWeather.status==200){
+
+          	var jsonWeather=JSON.parse(httpReqWeather.responseText);
+          	console.log(jsonWeather);
+          	
+          }
+		}
+		httpReqIp.send();
+
+		
+	}
+
+}
+</script>
+
+</head>
 
 <body>
-<div class="cloud-image">
-  <div class="cloud-text">
-    <h1 style="font-size:50px" text-align="center">Welcome to Weather Web!</h1>
-</div>
-     <div class="search-container">
-     <p> <input type="text" placeholder="Search.." name="search" width="100">
-      <button type="submit">Submit </button></p>
+	<div id="bg" class="jumbotron" >
+  	<h1 style="font-size:60px" text-align="center" id="location">Welcome to Weather Web!</h1>
   </div>
+
+     <div class="search-container"></div>
+    
+<div id="clouds">
+	<div class="cloud x1">
+	<!-- Time for multiple clouds to dance around -->
+	<div class="cloud x2"></div>
+	<div class="cloud x3"></div>
+	<div class="cloud x4"></div>
+
+	
 </div>
+
+
+
+  </div>
+
+
 </body>
 </html>
